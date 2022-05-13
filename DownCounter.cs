@@ -1,40 +1,40 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DownCounter : MonoBehaviour
 {
-    [SerializeField] Text downCounter;
+    private Text downCount;
     private int count = 3;
     void Start()
     {
-        downCounter.text = "Нажмите пробел";
+        downCount = GetComponent<Text>();
+        downCount.text = "РќР°Р¶РјРёС‚Рµ РїСЂРѕР±РµР»";
+        
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-        {
             for (int i = 0; i < 4; i++)
-                Invoke("ShowDownCounter", i);
-        }
+                Invoke("ShowCount", i);
+                
     }
 
-    public void LoadLevel()
-    {
-        GameController.StartGame();
-        SceneManager.LoadScene(1);
-    }
-
-    private void ShowDownCounter()
+    private void ShowCount()
     {
         if (count == 0)
         {
-            downCounter.text = "Старт";
+            downCount.text = "РЎС‚Р°СЂС‚";
             Invoke("LoadLevel", 1f);
         }
-        else           
-            downCounter.text = "" + count--;
+        else
+            downCount.text = "" + count--;
     }
 
+    private void LoadLevel()
+    {
+        GameController.StartGame();
+    }
 }

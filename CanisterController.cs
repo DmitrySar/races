@@ -2,30 +2,32 @@ using UnityEngine;
 
 public class CanisterController : MonoBehaviour
 {
-    [SerializeField] GameObject canister;
-    private float time;
+    [SerializeField] private GameObject canister;
+    private float startTime = 5f;
+    private float endTime = 20f;
+    private float currentTime;
 
-    private void Start()
+    private void InitTime()
+    {
+        currentTime = Random.Range(startTime, endTime);
+    }
+    void Start()
     {
         InitTime();
     }
+
     void Update()
     {
-        time -= Time.deltaTime;
-        if (time < 0)
+        currentTime -= Time.deltaTime;
+        if (currentTime < 0)
         {
             Instantiate(canister, new Vector3(
-                Random.Range(-3, 3),
-                transform.position.y,
-                -2f), 
+                    Random.Range(-GameController.LimitX, GameController.LimitX),
+                    transform.position.y,
+                    -2f),
                 transform.rotation);
             InitTime();
         }
-    }
 
-    private float InitTime()
-    {
-        time = Random.Range(5f, 20f);
-        return time;
     }
 }

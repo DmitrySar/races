@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -5,26 +6,27 @@ public class CarController : MonoBehaviour
 {
     [SerializeField] private GameObject[] cars;
     private Rigidbody2D body;
-    private GameObject car;
+    private static GameObject car;
     private float limitX = 3.8f;
     private static float speed = 0f;
     private float maxSpeed = 28f;
-    private GameObject track1;
-    private GameObject track2;
 
     public static float Speed
     {
         get => speed;
     }
 
-    void Start()
+    public static GameObject Car
     {
-        car = cars[Random.Range(0, 3)];
+        get { return car; }
+    }
+
+    void Awake()
+    {
+        car = cars[Random.Range(0, cars.Length)];
         car = Instantiate(car, transform.position, transform.rotation);
         transform.SetParent(car.transform);
         body = car.GetComponent<Rigidbody2D>();
-        track1 = car.transform.Find("LeftTrack").gameObject;
-        track2 = car.transform.Find("RightTrack").gameObject;
     }
     
     void Update()
@@ -35,12 +37,6 @@ public class CarController : MonoBehaviour
             car.transform.position = new Vector3(x,
                 car.transform.position.y,
                 car.transform.position.z);
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            body.velocity = new Vector2(body.velocity.x, 0);
-            ShowTrack();
-            Invoke("HideTrack", 2f);
-        }
     }
 
     private void FixedUpdate()
@@ -58,17 +54,4 @@ public class CarController : MonoBehaviour
         speed = Mathf.Clamp(speed + delta, 0, maxSpeed);
         return speed;
     }
-
-    private void ShowTrack()
-    {        
-        track1.SetActive(true);
-        track2.SetActive(true);
-    }
-
-    private void HideTrack()
-    {
-        track1.SetActive(false);
-        track2.SetActive(false);
-    }
-        
 }

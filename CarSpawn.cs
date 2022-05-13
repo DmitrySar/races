@@ -2,38 +2,34 @@ using UnityEngine;
 
 public class CarSpawn : MonoBehaviour
 {
-    [SerializeField] GameObject[] cars;
-    private GameObject car;
-    private float time;
-    [SerializeField] private int direct = -1;
+    [SerializeField] private GameObject[] cars;
     [SerializeField] private float angle = 180f;
-    void Start()
-    {
-        
-    }
-
+    [SerializeField] private float direct = -1f;
+    private GameObject car;
+    private float currentTime;
+    private float startTime = 2f;
+    private float endTime = 7f;
+    private float minSpeed = 5f;
+    private float maxSpeed = 20f;
     void Update()
     {
-        time -= Time.deltaTime;
-        if (time < 0)
+        currentTime -= Time.deltaTime;
+        if (currentTime < 0)
         {
-            car = cars[Random.Range(0, 3)];
-            car = Instantiate(car, new Vector3(
-                Random.Range(direct * 3, 0),
+            car = cars[Random.Range(0, cars.Length)];
+            car = Instantiate(car, new Vector3(Random.Range(direct * GameController.LimitX, 0),
                 transform.position.y,
-                -5f),
+                -2f),
                 Quaternion.Euler(angle, 0f, 0f));
             car.tag = "Enimy";
-            car.GetComponent<Rigidbody2D>().velocity =
-                new Vector2(0, Random.Range(2f, 7f) * direct);
+            car.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0,  direct * Random.Range(minSpeed, maxSpeed));
             Destroy(car, 10f);
             InitTime();
         }
     }
 
-    private float InitTime()
+    private void InitTime()
     {
-        time = Random.Range(2f, 10f);
-        return time;
+        currentTime = Random.Range(startTime, endTime);
     }
 }

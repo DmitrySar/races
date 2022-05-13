@@ -1,6 +1,7 @@
 using System;
+using UnityEngine;
 
-public class Score
+public class Score : MonoBehaviour
 {
-    public static DateTime recordTime = new DateTime();
+    public static DateTime timeScore = new DateTime();
 }
