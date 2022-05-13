@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Enimy : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     private void OnCollisionEnter2D(Collision2D other)
     {
